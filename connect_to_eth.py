@@ -35,16 +35,7 @@ def connect_with_middleware(contract_json):
 
 	w3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer = 0)
 
-	abi = [
-	    {
-	        "inputs": [],
-	        "name": "merkleRoot",
-	        "outputs": [{"internalType": "string", "name": "", "type": "string"}],
-	        "stateMutability": "view",
-	        "type": "function"
-	    }
-	]
-	contract = w3.eth.contract(address = "0x426ce97416f8Eec4B786aE7b40b355c5BC7b41cD", abi = abi)
+	contract = w3.eth.contract(address = address, abi = abi)
 
 	return w3, contract
 
