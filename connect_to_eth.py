@@ -44,7 +44,7 @@ def connect_with_middleware(contract_json):
             "type": "function"
         }
 	]
-	contract = w3.eth.contract()
+	contract = w3.eth.contract(abi = abi)
 
 	return w3, contract
 
