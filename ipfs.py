@@ -2,7 +2,7 @@ import requests
 import json
 
 # Base URL of the IPFS API (change if you're using your own IPFS node)
-IPFS_API_URL = "https://ipfs.io"  # or e.g. "https://ipfs.infura.io:5001"
+IPFS_API_URL = "https://ipfs.infura.io:5001"  # or e.g. "https://ipfs.infura.io:5001"
 
 def pin_to_ipfs(data):
     assert isinstance(data, dict), f"Error pin_to_ipfs expects a dictionary"
