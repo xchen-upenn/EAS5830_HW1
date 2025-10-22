@@ -22,9 +22,6 @@ def pin_to_ipfs(data):
     # Send request
     response = requests.post(url, headers=headers, data=json_data)
 
-    if response.status_code != 200:
-        raise Exception(f"Error uploading to IPFS: {response.text}")
-
     # Extract the IPFS CID
     cid = response.json()["IpfsHash"]
     return cid
@@ -37,9 +34,6 @@ def get_from_ipfs(cid, content_type="json"):
 
     # Retrieve from public gateway (works for any CID)
     response = requests.get(f"https://gateway.pinata.cloud/ipfs/{cid}")
-
-    if response.status_code != 200:
-        raise Exception(f"Error retrieving from IPFS: {response.text}")
 
     data = response.json()
     assert isinstance(data, dict), f"get_from_ipfs should return a dict"
