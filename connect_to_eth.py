@@ -35,16 +35,8 @@ def connect_with_middleware(contract_json):
 
 	w3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer = 0)
 
-	abi = [
-		{
-			"inputs": [],
-            "name": "name",
-            "outputs": [{"internalType": "string", "name": "", "type": "string"}],
-            "stateMutability": "view",
-            "type": "function"
-        }
-	]
-	contract = w3.eth.contract(abi = abi)
+	abi = [{"inputs":[],"name":"InvalidProof","type":"error"},{"inputs":[],"name":"UnnecessaryProof","type":"error"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"contract IERC1155","name":"token","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"bytes32","name":"root","type":"bytes32"},{"internalType":"bytes32[]","name":"proof","type":"bytes32[]"}],"name":"matchERC1155UsingCriteria","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"contract IERC721","name":"token","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes32","name":"root","type":"bytes32"},{"internalType":"bytes32[]","name":"proof","type":"bytes32[]"}],"name":"matchERC721UsingCriteria","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"contract IERC721","name":"token","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes32","name":"root","type":"bytes32"},{"internalType":"bytes32[]","name":"proof","type":"bytes32[]"}],"name":"matchERC721WithSafeTransferUsingCriteria","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}]
+	contract = w3.eth.contract(address = "0x916312a2DEe9bd458e1c372862871AD05BD7d55d", abi = abi)
 
 	return w3, contract
 
