@@ -34,9 +34,7 @@ def connect_with_middleware(contract_json):
 	# and https://web3py.readthedocs.io/en/stable/web3.contract.html
 
 	w3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer = 0)
-	address = '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F988'
-	abi = '[{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"address","name":"minter_","type":"address"},...'
-	contract = w3.eth.contract(address=address, abi=abi)
+	contract = w3.eth.contract()
 
 	return w3, contract
 
