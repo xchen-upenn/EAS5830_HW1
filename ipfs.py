@@ -2,7 +2,7 @@ import requests
 import json
 
 # Use local IPFS node (default port for Kubo)
-IPFS_API_URL = "/ip4/127.0.0.1/tcp/5001"
+IPFS_API_URL = "http://127.0.0.1:8080"
 
 def pin_to_ipfs(data):
     assert isinstance(data, dict), f"Error pin_to_ipfs expects a dictionary"
