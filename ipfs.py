@@ -1,8 +1,10 @@
 import requests
 import json
 
-# Use local IPFS node (default port for Kubo)
-IPFS_API_URL = "http://127.0.0.1:5001"
+PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIzMWQyMzNiMi0wNmJlLTRiNmUtYjE3Mi0yZTg1N2Y5ZDA2OGMiLCJlbWFpbCI6InhjaGVuLnJ1Y0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYmMzMzVjNzZjOGNjNDMyY2NjYWMiLCJzY29wZWRLZXlTZWNyZXQiOiJlODhmNzliOWQ2YTZkMzdkNGZlMDk0MjgwMDU1M2VmODFhNDE4ZGM5Y2RlNWI1Y2IzN2UwNWM3NGM0NGM0YWY4IiwiZXhwIjoxNzkyNzA3NTUzfQ.Wgew96hUiYmA2D7zldN4TCm5xLUgMVjWKtXdaLTCjHw"
+
+# Pinata API base URL
+PINATA_BASE_URL = "https://api.pinata.cloud"
 
 def pin_to_ipfs(data):
     assert isinstance(data, dict), f"Error pin_to_ipfs expects a dictionary"
@@ -10,15 +12,24 @@ def pin_to_ipfs(data):
     # Convert dictionary to JSON string
     json_data = json.dumps(data)
 
-    # Send to IPFS local API
-    files = {'file': ('data.json', json_data)}
-    response = requests.post(f"{IPFS_API_URL}/api/v0/add", files=files)
+    # Pinata JSON upload endpoint
+    url = f"{PINATA_BASE_URL}/pinning/pinJSONToIPFS"
+
+    headers = {
+        "Authorization": f"Bearer {PINATA_JWT}",
+        "Content-Type": "application/json"
+    }
+
+    # Send request
+    response = requests.post(url, headers=headers, data=json_data)
 
     if response.status_code != 200:
         raise Exception(f"Error uploading to IPFS: {response.text}")
 
-    cid = response.json()["Hash"]
+    # Extract the IPFS CID
+    cid = response.json()["IpfsHash"]
     return cid
+
 
 
 
@@ -26,7 +37,7 @@ def get_from_ipfs(cid, content_type="json"):
     assert isinstance(cid, str), f"get_from_ipfs accepts a cid in the form of a string"
 
     # Retrieve from public gateway (works for any CID)
-    response = requests.get(f"https://ipfs.io/ipfs/{cid}")
+    response = requests.get(f"https://gateway.pinata.cloud/ipfs/{cid}")
 
     if response.status_code != 200:
         raise Exception(f"Error retrieving from IPFS: {response.text}")
