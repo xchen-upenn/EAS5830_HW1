@@ -61,13 +61,13 @@ def is_ordered_block(w3, block_num):
 	
 	for tx in block['transactions']:
 		if 'maxPriorityFeePerGas' in tx and tx['maxPriorityFeePerGas'] is not None:
-            fee = min(tx['maxPriorityFeePerGas'], tx['maxFeePerGas'] - base_fee)
-        else:
-            fee = tx['gasPrice'] - base_fee
-        fees.append(fee)
-
-    ordered = all(fees[i] >= fees[i+1] for i in range(len(fees)-1))
-    return ordered
+			fee = min(tx['maxPriorityFeePerGas'], tx['maxFeePerGas'] - base_fee)
+		else:
+			fee = tx['gasPrice'] - base_fee
+			fees.append(fee)
+			
+	ordered = all(fees[i] >= fees[i+1] for i in range(len(fees)-1))
+	return ordered
 
 
 def get_contract_values(contract, admin_address, owner_address):
