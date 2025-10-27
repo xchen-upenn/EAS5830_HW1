@@ -59,7 +59,7 @@ def is_ordered_block(w3, block_num):
 	ordered = False
 
 	# TODO YOUR CODE HERE
-  base_fee = block.get('baseFeePerGas', 0)
+    base_fee = block.get('baseFeePerGas', 0)
     fees = []
 
     for tx in block['transactions']:
