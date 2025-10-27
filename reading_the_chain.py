@@ -57,10 +57,10 @@ def is_ordered_block(w3, block_num):
 	"""
 	block = w3.eth.get_block(block_num, full_transactions=True)
 	base_fee = block.get('baseFeePerGas', 0)
-    fees = []
-
-    for tx in block['transactions']:
-        if 'maxPriorityFeePerGas' in tx and tx['maxPriorityFeePerGas'] is not None:
+	fees = []
+	
+	for tx in block['transactions']:
+		if 'maxPriorityFeePerGas' in tx and tx['maxPriorityFeePerGas'] is not None:
             fee = min(tx['maxPriorityFeePerGas'], tx['maxFeePerGas'] - base_fee)
         else:
             fee = tx['gasPrice'] - base_fee
