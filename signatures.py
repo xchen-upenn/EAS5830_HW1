@@ -8,8 +8,8 @@ def sign(m):
 
     # TODO create an account for signing the message
     #account_object = w3.eth.account.create()  # Create an Eth account
-    public_key = '0xE75Ea03674Fe735e8312fBA7849b61d3cF1D2Bf2'  # Eth account public key
-    private_key = '0x0be68e35e911c47d0c43d96c49bb7a5a84a8ef114653f301d49748a59517de0e'  # Eth account private key
+    public_key = 0xE75Ea03674Fe735e8312fBA7849b61d3cF1D2Bf2  # Eth account public key
+    private_key = 0x0be68e35e911c47d0c43d96c49bb7a5a84a8ef114653f301d49748a59517de0e  # Eth account private key
 
     # TODO sign the given message "m"
     message = encode_defunct(text=m)  # Encode the message
