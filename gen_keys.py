@@ -12,7 +12,7 @@ address = '0xE75Ea03674Fe735e8312fBA7849b61d3cF1D2Bf2'
 
 # Save the private key in a file for your assignment
 with open("secret_key.txt", "w") as f:
-    f.write(acct.key.hex())
+    f.write(key.hex())
 
 
 
