@@ -6,14 +6,15 @@ import os
 from eth_account import Account
 
 # Create a new account
-acct = Account.create()
 
-print("Private key:", acct.key.hex())
-print("Address:", acct.address)
+#acct = Account.create()
+
+#print("Private key:", acct.key.hex())
+#print("Address:", acct.address)
 
 # Save the private key in a file for your assignment
-with open("secret_key.txt", "w") as f:
-    f.write(acct.key.hex())
+#with open("secret_key.txt", "w") as f:
+#    f.write(acct.key.hex())
 
 
 
