@@ -7,8 +7,8 @@ from eth_account import Account
 
 # Create a new account - see student account request project
 
-key = 0x0be68e35e911c47d0c43d96c49bb7a5a84a8ef114653f301d49748a59517de0e
-address = 0xE75Ea03674Fe735e8312fBA7849b61d3cF1D2Bf2
+key = "0x0be68e35e911c47d0c43d96c49bb7a5a84a8ef114653f301d49748a59517de0e"
+address = "0xE75Ea03674Fe735e8312fBA7849b61d3cF1D2Bf2"
 
 # Save the private key in a file for your assignment
 with open("secret_key.txt", "w") as f:
