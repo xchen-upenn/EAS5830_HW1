@@ -6,7 +6,7 @@ from pathlib import Path
 from web3 import Web3
 from web3.middleware import ExtraDataToPOAMiddleware  # Necessary for POA chains
 
-
+ 
 def merkle_assignment():
     """
         The only modifications you need to make to this method are to assign
