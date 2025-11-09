@@ -162,7 +162,7 @@ def send_signed_msg(proof, random_leaf):
     signed_tx = w3.eth.account.sign_transaction(tx, acct.key)
     tx_hash_p = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
     print("Transaction submitted! Hash:", w3.to_hex(tx_hash_p))
-    tx_hash = w3.to_hex(tx_hash))
+    tx_hash = w3.to_hex(tx_hash_p))
     return tx_hash
 
 
