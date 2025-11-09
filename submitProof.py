@@ -92,11 +92,12 @@ def build_merkle(leaves):
             if i + 1 < len(current_level):
                 left = current_level[i]
                 right = current_level[i + 1]
-                # Sort the pair before hashing
                 parent = hash_pair(left, right)
             else:
-                # If odd number of nodes, carry the last one up
-                parent = current_level[i]
+                # Duplicate the last node when odd number of nodes on this level
+                left = current_level[i]
+                right = current_level[i]
+                parent = hash_pair(left, right)
             next_level.append(parent)
         tree.append(next_level)
         current_level = next_level
@@ -113,23 +114,15 @@ def prove_merkle(merkle_tree, random_indx):
         returns a proof of inclusion as list of values
     """
     proof = []
-    index = leaf_index
+    index = random_indx
 
     for level in range(len(merkle_tree) - 1):
         nodes = merkle_tree[level]
-        # Determine sibling index
-        if index % 2 == 0:
-            sibling_index = index + 1
-        else:
-            sibling_index = index - 1
-
-        # Append sibling hash if it exists
+        sibling_index = index ^ 1  # 0↔1, 2↔3, etc.
         if sibling_index < len(nodes):
             proof.append(nodes[sibling_index])
-
-        # Move to parent level
+        # Move to parent index
         index //= 2
-
     return proof
 
 
@@ -176,6 +169,7 @@ def send_signed_msg(proof, random_leaf):
     signed_tx = w3.eth.account.sign_transaction(tx, acct.key)
     tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
     tx_hash_hex = w3.to_hex(tx_hash)
+    print("Transaction submitted! Hash:", tx_hash_hex)
     return tx_hash_hex
 
 
