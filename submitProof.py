@@ -86,18 +86,17 @@ def build_merkle(leaves):
     tree = [leaves]
     current_level = leaves
 
-    # NOTE: we duplicate the last node if the level has an odd count.
-    # This is a common Merkle convention and what the grader expects.
     while len(current_level) > 1:
         next_level = []
         for i in range(0, len(current_level), 2):
-            left = current_level[i]
             if i + 1 < len(current_level):
+                left = current_level[i]
                 right = current_level[i + 1]
+                # Sort the pair before hashing
+                parent = hash_pair(left, right)
             else:
-                # Duplicate last node if odd count
-                right = current_level[i]
-            parent = hash_pair(left, right)
+                # If odd number of nodes, carry the last one up
+                parent = current_level[i]
             next_level.append(parent)
         tree.append(next_level)
         current_level = next_level
@@ -114,15 +113,23 @@ def prove_merkle(merkle_tree, random_indx):
         returns a proof of inclusion as list of values
     """
     proof = []
-    index = random_indx
+    index = leaf_index
 
-    # For each level (except the root), append sibling if sibling exists
     for level in range(len(merkle_tree) - 1):
         nodes = merkle_tree[level]
-        sibling_index = index ^ 1  # 0↔1, 2↔3, etc.
+        # Determine sibling index
+        if index % 2 == 0:
+            sibling_index = index + 1
+        else:
+            sibling_index = index - 1
+
+        # Append sibling hash if it exists
         if sibling_index < len(nodes):
             proof.append(nodes[sibling_index])
+
+        # Move to parent level
         index //= 2
+
     return proof
 
 
@@ -169,7 +176,7 @@ def send_signed_msg(proof, random_leaf):
     signed_tx = w3.eth.account.sign_transaction(tx, acct.key)
     tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
     tx_hash_hex = w3.to_hex(tx_hash)
-    print("Transaction submitted! Hash:", tx_hash_hex)
+    //print("Transaction submitted! Hash:", tx_hash_hex)
     return tx_hash_hex
 
 
