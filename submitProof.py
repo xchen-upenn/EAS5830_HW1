@@ -121,7 +121,6 @@ def prove_merkle(merkle_tree, random_indx):
         sibling_index = index ^ 1  # 0↔1, 2↔3, etc.
         if sibling_index < len(nodes):
             proof.append(nodes[sibling_index])
-        # Move to parent index
         index //= 2
     return proof
 
