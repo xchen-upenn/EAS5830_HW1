@@ -90,10 +90,14 @@ def build_merkle(leaves):
         next_level = []
         for i in range(0, len(current_level), 2):
             if i + 1 < len(current_level):
-                parent = hash_pair(current_level[i], current_level[i + 1])
+                left = current_level[i]
+                right = current_level[i + 1]
+                parent = hash_pair(left, right)
             else:
-                # Odd leaf is carried up directly, not duplicated
-                parent = current_level[i]
+                # Duplicate the last node when odd number of nodes on this level
+                left = current_level[i]
+                right = current_level[i]
+                parent = hash_pair(left, right)
             next_level.append(parent)
         tree.append(next_level)
         current_level = next_level
