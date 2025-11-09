@@ -107,17 +107,17 @@ def prove_merkle(merkle_tree, random_indx):
         parent hash values, up to index -1 which is the list of the root hash.
         returns a proof of inclusion as list of values
     """
-    merkle_proof = []
+    proof = []
     index = random_indx
 
     for level in range(len(merkle_tree) - 1):
-        level_nodes = merkle_tree[level]
-        # Find sibling index
-        sibling_index = index ^ 1  # flips last bit (0→1, 1→0)
-        if sibling_index < len(level_nodes):
-            merkle_proof.append(level_nodes[sibling_index])
+        nodes = merkle_tree[level]
+        sibling_index = index ^ 1  # 0↔1, 2↔3, etc.
+        if sibling_index < len(nodes):
+            proof.append(nodes[sibling_index])
+        # Move to parent index
         index //= 2
-    return merkle_proof
+    return proof
 
 
 def sign_challenge(challenge):
