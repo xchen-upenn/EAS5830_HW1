@@ -142,9 +142,8 @@ def sign_challenge(challenge):
 
 def send_signed_msg(proof, random_leaf):
     """
-        Takes a Merkle proof of a leaf, and that leaf (in bytes32 format)
-        builds signs and sends a transaction claiming that leaf (prime)
-        on the contract
+    Takes a Merkle proof and the leaf (in bytes32 format),
+    builds, signs, and sends a transaction claiming that leaf (prime) on the contract.
     """
     chain = 'bsc'
 
@@ -152,9 +151,9 @@ def send_signed_msg(proof, random_leaf):
     address, abi = get_contract_info(chain)
     w3 = connect_to(chain)
     
-    # TODO YOUR CODE HERE
     contract = w3.eth.contract(address=address, abi=abi)
-    tx_hash = contract.functions.submit(proof, random_leaf).build_transaction({
+
+    tx = contract.functions.submit(proof, random_leaf).build_transaction({
         'from': acct.address,
         'nonce': w3.eth.get_transaction_count(acct.address),
         'gas': 500000,
@@ -162,10 +161,11 @@ def send_signed_msg(proof, random_leaf):
     })
 
     signed_tx = w3.eth.account.sign_transaction(tx, acct.key)
-    tx_hash_bytes = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
-    tx_hash_hex = w3.to_hex(tx_hash_bytes)
-
+    tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+    tx_hash_hex = w3.to_hex(tx_hash)
+    print("Transaction submitted! Hash:", tx_hash_hex)
     return tx_hash_hex
+
 
 
 
