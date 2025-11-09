@@ -1,4 +1,6 @@
 import eth_account
+from eth_account import Account
+from hashlib import sha256
 import random
 import string
 import json
