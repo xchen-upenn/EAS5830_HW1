@@ -108,15 +108,17 @@ def prove_merkle(merkle_tree, random_indx):
         returns a proof of inclusion as list of values
     """
     proof = []
-    index = random_indx
+    idx = leaf_index
 
     for level in range(len(merkle_tree) - 1):
-        nodes = merkle_tree[level]
-        sibling_index = index ^ 1  # 0↔1, 2↔3, etc.
-        if sibling_index < len(nodes):
-            proof.append(nodes[sibling_index])
-        # Move to parent index
-        index //= 2
+        layer = merkle_tree[level]
+        sibling_index = idx ^ 1  # flip last bit to get sibling
+        if sibling_index < len(layer):
+            proof.append(layer[sibling_index])
+        else:
+            proof.append(layer[idx])  # duplicate if no sibling
+        idx //= 2
+
     return proof
 
 
