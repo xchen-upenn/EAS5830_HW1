@@ -100,7 +100,7 @@ def build_merkle(leaves):
 
 
 
-def prove_merkle(merkle_tree, random_indx):
+def prove_merkle(merkle_tree, leaf_index):
     """
         Takes a random_index to create a proof of inclusion for and a complete Merkle tree
         as a list of lists where index 0 is the list of leaves, index 1 is the list of
