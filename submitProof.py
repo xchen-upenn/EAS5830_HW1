@@ -84,18 +84,25 @@ def build_merkle(leaves):
 
     #TODO YOUR CODE HERE
     tree = [leaves]
-    current = leaves
- 
-    while len(current) > 1:
+    current_level = leaves
+
+    while len(current_level) > 1:
         next_level = []
-        for i in range(0, len(current), 2):
-            left = current[i]
-            right = current[i+1]  #
-            parent = hash_pair(left, right)
+        for i in range(0, len(current_level), 2):
+            if i + 1 < len(current_level):
+                left = current_level[i]
+                right = current_level[i + 1]
+                parent = hash_pair(left, right)
+            else:
+                # Duplicate the last node when odd number of nodes on this level
+                left = current_level[i]
+                right = current_level[i]
+                parent = hash_pair(left, right)
             next_level.append(parent)
         tree.append(next_level)
-        current = next_level
-     return tree
+        current_level = next_level
+
+    return tree
 
 
 
@@ -106,22 +113,17 @@ def prove_merkle(merkle_tree, random_indx):
         parent hash values, up to index -1 which is the list of the root hash.
         returns a proof of inclusion as list of values
     """
-    merkle_proof = []
-
-    # TODO YOUR CODE HERE
-    idx = random_indx
+    proof = []
+    index = random_indx
 
     for level in range(len(merkle_tree) - 1):
-        layer = merkle_tree[level]
-        pair_index = idx ^ 1  # sibling index
-        if pair_index < len(layer):
-            merkle_proof.append(layer[pair_index])
-        else:
-            # if no sibling, append self (consistent with duplicate behavior)
-            merkle_proof.append(layer[idx])
-        idx //= 2
-
-    return merkle_proof
+        nodes = merkle_tree[level]
+        sibling_index = index ^ 1  # 0↔1, 2↔3, etc.
+        if sibling_index < len(nodes):
+            proof.append(nodes[sibling_index])
+        # Move to parent index
+        index //= 2
+    return proof
 
 
 def sign_challenge(challenge):
