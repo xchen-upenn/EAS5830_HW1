@@ -152,7 +152,11 @@ def send_signed_msg(proof, random_leaf):
 
     signed_tx = w3.eth.account.sign_transaction(tx, private_key=acct.key)
     tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
-    return tx_hash
+
+    # Wait for the transaction to be mined
+    receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+    
+    return w3.to_hex(tx_hash)    
 
 
 # -------------------- Helper functions -------------------- #
